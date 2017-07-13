@@ -9,15 +9,18 @@ import json
 
 class hostchecker:
 
-    def __init__(self, url, domain, ip):
+    def __init__(self, url, domain, ip, output):
         self.url    = url
         self.domain = domain
         self.ip     = ip
+        self.output = output
 
     # URLからホスト名を切り出す
     def slice_hostoname(self):
+        
+        urlparse_obj = urlparse(self.url)
+
         try：
-            urlparse_obj = urlparse(self.url)
             return urlparse_obj.hostname
         except:
             return False
@@ -39,31 +42,33 @@ class hostchecker:
     # geoipで
     def geoip_lookup(self):
         try:
-            return hoge
+            return True
         except:
             return False
 
     def whois_lookup(self):
         try:
-            return hoge
+            return True
         except:
             return False
     
     def httpheader_lookup(self):
         try:
-            return hoge
+            return True
         except:
             return False
 
     def tracetoute_lookup(self):
         try:
+            return True
         except:
-            False
+            return False
 
     def as_number_lookup(self):
         try:
+            return  True
         except:
-            False
+            return False
 
     def formatter_msg(self):
         try:
