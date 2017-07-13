@@ -5,6 +5,7 @@ pp = pprint.PrettyPrinter(indent=4)
 import sys
 from urlparse import urlparse
 import socket
+import json
 
 class hostchecker:
 
@@ -34,6 +35,26 @@ class hostchecker:
 		    return socket.gethostbyaddr(self.ip)
     	except:
 	    	return False
+    
+    # geoipで
+    def geoip_lookup(self):
+        try:
+            return hoge
+        except:
+            return False
+
+    def whois_lookup(self):
+        try:
+            return hoge
+        except:
+            return False
+    
+    def httpheader_lookup(self):
+        try:
+            return hoge
+        except:
+            return False
+
 
     def formatter_msg(self):
         try:
