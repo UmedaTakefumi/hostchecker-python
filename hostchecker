@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+import sys
+from urlparse import urlparse
+import socket
+
+class hostchecker:
+
+    def __init__(self):
+        self.url = url
+        self.domain = domain
+        self.ip = ip
+
+    # URLからホスト名を切り出す
+    def slice_hostoname(url):
+        try：
+            urlparse_obj = urlparse(url)
+            return urlparse_obj.hostname
+        except:
+            return False
+
+    # ドメインからIPアドレスを問い合わせる / 正引き
+    def fowarod_lookup(domain):
+        try:
+            return socket.gethostbyname(domain)
+        except:
+            return False
+
+    # ipアドレスからドメインを問い合わせる / 逆引き
+    def reverse_lookup(ip):
+	    try:
+		    return socket.gethostbyaddr(ip)[0]
+    	except:
+	    	return False
+
+    def formatter(msg):
+        try:
+            return print("  {}\n".format(msg))
+        except:
+            return False
+
+if __name__ == '__main__':
+ 
+    args = sys.argv
+    input_url = args[1]
+
+    print("URL:")
+    print("IPAddress:")
+    print("ResolveHostName:")
+
+
+
+
+
+
