@@ -8,36 +8,36 @@ import socket
 
 class hostchecker:
 
-    def __init__(self):
-        self.url = url
+    def __init__(self, url, domain, ip):
+        self.url    = url
         self.domain = domain
-        self.ip = ip
+        self.ip     = ip
 
     # URLからホスト名を切り出す
-    def slice_hostoname(url):
+    def slice_hostoname(self):
         try：
-            urlparse_obj = urlparse(url)
+            urlparse_obj = urlparse(self.url)
             return urlparse_obj.hostname
         except:
             return False
 
     # ドメインからIPアドレスを問い合わせる / 正引き
-    def fowarod_lookup(domain):
+    def fowarod_lookup(self):
         try:
-            return socket.gethostbyname(domain)
+            return socket.gethostbyname(self.domain)
         except:
             return False
 
     # ipアドレスからドメインを問い合わせる / 逆引き
-    def reverse_lookup(ip):
+    def reverse_lookup(self):
 	    try:
-		    return socket.gethostbyaddr(ip)[0]
+		    return socket.gethostbyaddr(self.ip)
     	except:
 	    	return False
 
-    def formatter(msg):
+    def formatter_msg(self):
         try:
-            return print("  {}\n".format(msg))
+            return print("  {}\n".format(self.msg))
         except:
             return False
 
