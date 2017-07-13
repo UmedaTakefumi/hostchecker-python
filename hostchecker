@@ -55,12 +55,23 @@ class hostchecker:
         except:
             return False
 
+    def tracetoute_lookup(self):
+        try:
+        except:
+            False
+
+    def as_number_lookup(self):
+        try:
+        except:
+            False
 
     def formatter_msg(self):
         try:
             return print("  {}\n".format(self.msg))
         except:
             return False
+    
+
 
 if __name__ == '__main__':
  
@@ -70,6 +81,10 @@ if __name__ == '__main__':
     print("URL:")
     print("IPAddress:")
     print("ResolveHostName:")
+    print("GeoIP:")
+    print("HTTP header:")
+    print("traceroute:")
+    print("Whois:")
 
 
 
