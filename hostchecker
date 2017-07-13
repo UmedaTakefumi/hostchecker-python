@@ -5,91 +5,68 @@ pp = pprint.PrettyPrinter(indent=4)
 import sys
 from urlparse import urlparse
 import socket
+from geoip import geolite2
+import whois
+#import pyasn
+import urllib2
+
+
 import json
 
 class hostchecker:
 
-    def __init__(self, url, domain, ip, output):
+    def __init__(self, url, output):
         self.url    = url
-        self.domain = domain
-        self.ip     = ip
         self.output = output
+        self.struct = {}
 
-    # URLからホスト名を切り出す
-    def slice_hostoname(self):
-        
-        urlparse_obj = urlparse(self.url)
+    def hostoname_lookup(self):
 
-        try：
-            return urlparse_obj.hostname
-        except:
-            return False
+            # URLからホスト名を抽出
+            #pp.pprint(self.url)   
+            urlparse_obj = urlparse(self.url)
+            self.hostname = urlparse_obj.hostname
+            self.struct["hostname"] = self.hostname
 
-    # ドメインからIPアドレスを問い合わせる / 正引き
-    def fowarod_lookup(self):
-        try:
-            return socket.gethostbyname(self.domain)
-        except:
-            return False
+            # ホスト名からIPアドレスを引く
+            self.ipaddr = socket.gethostbyname(self.hostname)
+            self.struct["ipaddr"] = self.ipaddr
 
-    # ipアドレスからドメインを問い合わせる / 逆引き
-    def reverse_lookup(self):
-	    try:
-		    return socket.gethostbyaddr(self.ip)
-    	except:
-	    	return False
-    
-    # geoipで
-    def geoip_lookup(self):
-        try:
-            return True
-        except:
-            return False
+            # IPアドレスからホスト名を引く
+            self.resolve_hostname = socket.gethostbyaddr(self.ipaddr)
+            self.struct["resolve_hostname"] = self.resolve_hostname
 
-    def whois_lookup(self):
-        try:
-            return True
-        except:
-            return False
-    
-    def httpheader_lookup(self):
-        try:
-            return True
-        except:
-            return False
+            # geoipで国情報を取得
+            match = geolite2.lookup(self.ipaddr)
+            geoip = {}
+            geoip["county"] = match.country
+            geoip["timezone"] = match.timezone
+            geoip["continent"] = match.continent
+            geoip["subdivisions"] = match.subdivisions
+            #pp.pprint(geoip)
+            self.struct["geoip"] = geoip
 
-    def tracetoute_lookup(self):
-        try:
-            return True
-        except:
-            return False
-
-    def as_number_lookup(self):
-        try:
-            return  True
-        except:
-            return False
-
-    def formatter_msg(self):
-        try:
-            return print("  {}\n".format(self.msg))
-        except:
-            return False
-    
-
+            # whois情報を取得
+            w = whois.query("azurestone.net")
+            #pp.pprint(w.__dict__)
+            self.whois = w.__dict__
+            self.struct["whois"] = self.whois
+            
+            # http headerを取得
+            user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
+            headers = {'User-Agent': user_agent}
+            #req = urllib2.request.Request(url, data, headers)
+            
+            pp.pprint(self.struct)
 
 if __name__ == '__main__':
  
     args = sys.argv
-    input_url = args[1]
+    input_url = args[1]    
 
-    print("URL:")
-    print("IPAddress:")
-    print("ResolveHostName:")
-    print("GeoIP:")
-    print("HTTP header:")
-    print("traceroute:")
-    print("Whois:")
+    hc = hostchecker("http://www.azurestone.net/", "json")
+    hc.hostoname_lookup()
+    
 
 
 
