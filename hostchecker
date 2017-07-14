@@ -39,7 +39,9 @@ class hostchecker:
             self.resolve_hostname = socket.gethostbyaddr(self.ipaddr)
             self.struct["resolve_hostname"] = self.resolve_hostname
 
-            # geoipで国情報を取得
+            # geoipデータベースの取得
+            #   https://github.com/maxmind/GeoIP2-python#database-example
+            #   http://dev.maxmind.com/geoip/geoip2/geolite2/
             geoip_database_url = "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
             if not os.path.exists("GeoLite2-City_20170704/GeoLite2-City.mmdb"):
                 print("Download GetIP Datbase ...")
@@ -66,6 +68,9 @@ class hostchecker:
             geoip["location_longitude"] = response.location.longitude
             #pp.pprint(geoip)
             self.struct["geoip"] = geoip
+
+
+
 
 
             # whois情報を取得
