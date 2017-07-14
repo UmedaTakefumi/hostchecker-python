@@ -67,6 +67,7 @@ class hostchecker:
             #pp.pprint(geoip)
             self.struct["geoip"] = geoip
 
+
             # whois情報を取得
             #w = whois.query("azurestone.net")
             #pp.pprint(w.__dict__)
