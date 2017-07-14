@@ -53,7 +53,7 @@ class hostchecker:
                 tf.close
 
             #pp.pprint(self.ipaddr)
-            reader = geoip2.database.Reader('GeoLite2-City_20170704/GeoLite2-City.mmdb')
+            reader = geoip2.database.Reader('GeoLite2-City_20170704/GeoLite2-City.mmdb', ['ja'])
             response = reader.city(self.ipaddr)
 
             geoip = {}
