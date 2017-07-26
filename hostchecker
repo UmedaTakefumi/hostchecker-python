@@ -68,23 +68,10 @@ class hostchecker:
             geoip["location_longitude"] = response.location.longitude
             #pp.pprint(geoip)
             self.struct["geoip"] = geoip
-
-
-
-
-
-            # whois情報を取得
-            #w = whois.query("azurestone.net")
-            #pp.pprint(w.__dict__)
-            #self.whois = w.__dict__
-            #self.struct["whois"] = self.whois
             
-            # http headerを取得
-            #user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
-            #headers = {'User-Agent': user_agent}
-            #req = urllib2.request.Request(url, data, headers)
-            
-            pp.pprint(self.struct)
+            #pp.pprint(self.struct)
+            return self.struct
+
 
 if __name__ == '__main__':
  
@@ -92,10 +79,8 @@ if __name__ == '__main__':
     input_url = args[1]    
 
     hc = hostchecker(input_url, "json")
-    hc.hostoname_lookup()
-    
-
-
+    struct_data = hc.hostoname_lookup()
+    print(json.dumps(struct_data))
 
 
 
