@@ -67,6 +67,27 @@ class hostchecker:
             #pp.pprint(self.struct)
             return self.struct
 
+    """    
+    URLからホスト名を抽出して、IPアドレスを引く
+    引数にURLを渡す
+    """
+    def lookup_ipaddr(self, url):
+
+        self.struct = {}
+        self.url = url
+
+        # URLからホスト名を抽出
+        #pp.pprint(self.url) 
+        urlparse_obj = urlparse(self.url)
+        self.hostname = urlparse_obj.hostname
+        self.struct["hostname"] = self.hostname
+
+        # ホスト名からIPアドレスを引く
+        self.ipaddr = socket.gethostbyname(self.hostname)
+        self.struct["ipaddr"] = self.ipaddr
+
+        return self.struct
+
 if __name__ == '__main__':
  
     args = sys.argv
