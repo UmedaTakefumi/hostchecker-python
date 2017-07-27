@@ -88,6 +88,71 @@ class hostchecker:
 
         return self.struct
 
+    """
+    IPアドレスからホスト名を引く
+    """
+    def lookup_hostname(self, ipaddr):
+
+        self.struct = {}
+        self.ipaddr = ipaddr
+         
+        self.resolve_hostname = socket.gethostbyaddr(self.ipaddr)
+        self.struct["resolve_hostname"] = self.resolve_hostname
+
+        return self.struct
+
+    """
+    IPアドレスからGeoIPデータベースを検索する
+    """
+    def lookup_geoip(self, ipaddr)
+
+        self.struct = {}
+        self.ipaddr = ipaddr
+
+        """
+        geoipデータベースの取得
+            https://github.com/maxmind/GeoIP2-python#database-example
+            http://dev.maxmind.com/geoip/geoip2/geolite2/
+        """
+        geoip_database_url = "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
+        if not os.path.exists("GeoLite2-City_20170704/GeoLite2-City.mmdb"):
+            print("Download GetIP Datbase ...")
+            urllib.request.urlretrieve(geoip_database_url, "GeoLite2-City_20170704.tar.gz")
+            tf = tarfile.open("GeoLite2-City_20170704.tar.gz", "r")
+            print("Expanding GetIP Database ...")
+            tf.list()
+            tf.extractall()
+            tf.close
+
+        #pp.pprint(self.ipaddr)
+        reader = geoip2.database.Reader('GeoLite2-City_20170704/GeoLite2-City.mmdb', ['ja'])
+        response = reader.city(self.ipaddr)
+
+        geoip = {}
+        #pp.pprint(response)
+        geoip["county"] = response.country.iso_code
+        geoip["county_name"] = response.country.name
+        geoip["subdivisions"] = response.subdivisions.most_specific.iso_code
+        geoip["subdivisions_name"] = response.subdivisions.most_specific.name
+        geoip["cityname"] = response.city.name
+        geoip["postal_code"] = response.postal.code
+        geoip["location_latitude"] = response.location.latitude
+        geoip["location_longitude"] = response.location.longitude
+        #pp.pprint(geoip)
+        self.struct["geoip"] = geoip
+            
+        #pp.pprint(self.struct)
+        return self.struct
+
+    def output(self, data, format):
+
+        self.data = data
+        self.format = format
+
+        if format -- 'json':
+            print(json.dumps(self.data, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': ')))
+                
+
 if __name__ == '__main__':
  
     args = sys.argv
