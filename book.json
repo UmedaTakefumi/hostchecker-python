@@ -1,0 +1,9 @@
+{
+    "plugins": ["mermaid-2"],
+    "pluginsConfig": {
+        "mermaid-2": {
+            "theme": "forest"
+        }
+    }
+}
+
