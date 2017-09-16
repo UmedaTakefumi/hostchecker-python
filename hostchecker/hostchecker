@@ -104,7 +104,7 @@ class hostchecker:
     """
     IPアドレスからGeoIPデータベースを検索する
     """
-    def lookup_geoip(self, ipaddr)
+    def lookup_geoip(self, ipaddr):
 
         self.struct = {}
         self.ipaddr = ipaddr
